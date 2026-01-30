@@ -83,6 +83,15 @@
             color: #ffd700;
         }
 
+        .header .welcome-message {
+            font-size: 1.3em;
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            font-style: italic;
+        }
+
         .header p {
             font-size: 1.1em;
             opacity: 0.9;
@@ -90,38 +99,6 @@
 
         .content {
             padding: 40px;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-            border-bottom: 2px solid #e0e0e0;
-            flex-wrap: wrap;
-        }
-
-        .tab {
-            padding: 15px 30px;
-            background: #f5f5f5;
-            border: none;
-            border-radius: 10px 10px 0 0;
-            cursor: pointer;
-            font-size: 1.1em;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .tab.active {
-            background: linear-gradient(135deg, #1565c0 0%, #2e7d32 100%);
-            color: white;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
         }
 
         .calendar-grid {
@@ -275,6 +252,59 @@
             background: linear-gradient(135deg, #f57c00 0%, #e65100 100%);
         }
 
+        .program-section {
+            margin-top: 40px;
+            padding: 30px;
+            background: #f0f7ff;
+            border-radius: 15px;
+            border: 2px solid #1565c0;
+        }
+
+        .program-section h2 {
+            color: #1565c0;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .program-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .program-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #2e7d32;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .program-item .date {
+            font-weight: bold;
+            color: #1565c0;
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+
+        .program-item .speaker {
+            color: #2e7d32;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .program-item .subject {
+            color: #555;
+            font-style: italic;
+            margin-bottom: 5px;
+        }
+
+        .program-item .time {
+            color: #888;
+            font-size: 0.9em;
+        }
+
         .admin-section {
             margin-top: 40px;
             padding: 30px;
@@ -403,12 +433,8 @@
                 grid-template-columns: 1fr;
             }
 
-            .tabs {
-                flex-direction: column;
-            }
-
-            .tab {
-                width: 100%;
+            .program-list {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -426,104 +452,60 @@
                 </div>
             </div>
             <img src="https://mosquee-bron.fr/wp-content/uploads/2018/05/MOSQUEE-BRON-1024x672-1.jpg" alt="Mosquée de Bron" class="mosque-photo">
-            <p>Réservez votre créneau pour les conférences</p>
+            <div class="welcome-message">
+                La Mosquée de Bron a l'honneur de vous avoir parmi nous durant le mois de Ramadan
+            </div>
         </div>
 
         <div class="content">
             <div id="mainMessage" class="message"></div>
 
-            <div class="tabs">
-                <button class="tab active" onclick="switchTab('weekend')">📅 Dars du Week-end</button>
-                <button class="tab" onclick="switchTab('daily')">🌙 Dars avant Al-Icha (Quotidien)</button>
-            </div>
-
-            <!-- DARS DU WEEK-END -->
-            <div id="weekend-content" class="tab-content active">
-                <div class="legend">
-                    <div class="legend-item">
-                        <div class="legend-box available"></div>
-                        <span>Disponible</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-box reserved"></div>
-                        <span>Réservé</span>
-                    </div>
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-box available"></div>
+                    <span>Disponible</span>
                 </div>
-
-                <h2 style="margin-bottom: 20px; color: #1565c0;">📅 Sélectionnez une date (Week-end)</h2>
-                <div id="loadingWeekend" class="loading-spinner"></div>
-                <div class="calendar-grid" id="calendarGridWeekend"></div>
-
-                <div class="reservation-form" id="reservationFormWeekend">
-                    <h2 style="margin-bottom: 20px; color: #1565c0;">📝 Formulaire de réservation</h2>
-                    
-                    <div class="form-group">
-                        <label>Date et Horaire sélectionné :</label>
-                        <input type="text" id="selectedSlotWeekend" readonly style="background: #f5f5f5;">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Nom complet * :</label>
-                        <input type="text" id="nomWeekend" placeholder="Nom et Prénom" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Numéro de téléphone * :</label>
-                        <input type="tel" id="telephoneWeekend" placeholder="06 XX XX XX XX" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Sujet de la conférence * :</label>
-                        <textarea id="sujetWeekend" placeholder="Décrivez le sujet que vous souhaitez aborder..." required></textarea>
-                    </div>
-
-                    <button class="btn" onclick="submitReservation('weekend')" id="btnWeekend">Confirmer la réservation</button>
+                <div class="legend-item">
+                    <div class="legend-box reserved"></div>
+                    <span>Réservé</span>
                 </div>
             </div>
 
-            <!-- DARS QUOTIDIEN AVANT AL-ICHA -->
-            <div id="daily-content" class="tab-content">
-                <div class="legend">
-                    <div class="legend-item">
-                        <div class="legend-box available"></div>
-                        <span>Disponible</span>
-                    </div>
-                    <div class="legend-item">
-                        <div class="legend-box reserved"></div>
-                        <span>Réservé</span>
-                    </div>
+            <h2 style="margin-bottom: 20px; color: #1565c0;">📅 Sélectionnez une date</h2>
+            <div id="loadingWeekend" class="loading-spinner"></div>
+            <div class="calendar-grid" id="calendarGridWeekend"></div>
+
+            <div class="reservation-form" id="reservationFormWeekend">
+                <h2 style="margin-bottom: 20px; color: #1565c0;">📝 Formulaire de réservation</h2>
+                
+                <div class="form-group">
+                    <label>Date et Horaire sélectionné :</label>
+                    <input type="text" id="selectedSlotWeekend" readonly style="background: #f5f5f5;">
                 </div>
 
-                <h2 style="margin-bottom: 20px; color: #2e7d32;">🌙 Sélectionnez une date (Avant Al-Icha)</h2>
-                <p style="margin-bottom: 20px; color: #666;">Interventions quotidiennes avant Salat Al-Icha pendant tout le Ramadan</p>
-                <div id="loadingDaily" class="loading-spinner"></div>
-                <div class="calendar-grid" id="calendarGridDaily"></div>
-
-                <div class="reservation-form" id="reservationFormDaily">
-                    <h2 style="margin-bottom: 20px; color: #2e7d32;">📝 Formulaire de réservation</h2>
-                    
-                    <div class="form-group">
-                        <label>Date et Horaire sélectionné :</label>
-                        <input type="text" id="selectedSlotDaily" readonly style="background: #f5f5f5;">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Nom complet * :</label>
-                        <input type="text" id="nomDaily" placeholder="Nom et Prénom" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Numéro de téléphone * :</label>
-                        <input type="tel" id="telephoneDaily" placeholder="06 XX XX XX XX" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Sujet de la conférence * :</label>
-                        <textarea id="sujetDaily" placeholder="Décrivez le sujet que vous souhaitez aborder..." required></textarea>
-                    </div>
-
-                    <button class="btn" onclick="submitReservation('daily')" id="btnDaily">Confirmer la réservation</button>
+                <div class="form-group">
+                    <label>Nom complet * :</label>
+                    <input type="text" id="nomWeekend" placeholder="Nom et Prénom" required>
                 </div>
+
+                <div class="form-group">
+                    <label>Numéro de téléphone * :</label>
+                    <input type="tel" id="telephoneWeekend" placeholder="06 XX XX XX XX" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Sujet de la conférence * :</label>
+                    <textarea id="sujetWeekend" placeholder="Décrivez le sujet que vous souhaitez aborder..." required></textarea>
+                </div>
+
+                <button class="btn" onclick="submitReservation()" id="btnWeekend">Confirmer la réservation</button>
+            </div>
+
+            <!-- PROGRAMME PUBLIC -->
+            <div class="program-section" id="programSection">
+                <h2>📖 Programme des Conférences - Ramadan 2026</h2>
+                <div id="loadingProgram" class="loading-spinner" style="display: none;"></div>
+                <div class="program-list" id="programList"></div>
             </div>
 
             <!-- SECTION ADMIN -->
@@ -568,9 +550,8 @@
         let reservations = [];
         let selectedDate = null;
         let selectedTime = null;
-        let currentType = 'weekend';
 
-        // Dates du Ramadan 2026
+        // Dates du Ramadan 2026 (Week-end uniquement)
         const ramadanDates = [
             { date: '2026-02-21', day: 'Samedi', ramadanDay: 1 },
             { date: '2026-02-22', day: 'Dimanche', ramadanDay: 2 },
@@ -584,31 +565,9 @@
             { date: '2026-03-22', day: 'Dimanche', ramadanDay: 30 }
         ];
 
-        function getAllRamadanDates() {
-            const dates = [];
-            const startDate = new Date('2026-02-21');
-            for (let i = 0; i < 30; i++) {
-                const date = new Date(startDate);
-                date.setDate(startDate.getDate() + i);
-                const dayNames = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
-                dates.push({
-                    date: date.toISOString().split('T')[0],
-                    day: dayNames[date.getDay()],
-                    ramadanDay: i + 1
-                });
-            }
-            return dates;
-        }
-
-        const allRamadanDates = getAllRamadanDates();
-
         const timeSlotsWeekend = [
             { id: 'asr', label: 'Après Salat Al-Asr', time: '(~16h30)' },
             { id: 'dhuhr', label: 'Après Salat Ad-Dhuhr', time: '(~14h00)' }
-        ];
-
-        const timeSlotDaily = [
-            { id: 'icha', label: 'Avant Salat Al-Icha', time: '(~20h00)' }
         ];
 
         function showMessage(message, type = 'success') {
@@ -621,62 +580,33 @@
         async function loadReservations() {
             try {
                 document.getElementById('loadingWeekend').style.display = 'block';
-                document.getElementById('loadingDaily').style.display = 'block';
                 
                 const response = await fetch(GOOGLE_SCRIPT_URL);
                 const data = await response.json();
                 reservations = data;
                 
                 document.getElementById('loadingWeekend').style.display = 'none';
-                document.getElementById('loadingDaily').style.display = 'none';
                 
                 initCalendar();
+                loadPublicProgram();
             } catch (error) {
                 console.error('Erreur chargement:', error);
                 document.getElementById('loadingWeekend').style.display = 'none';
-                document.getElementById('loadingDaily').style.display = 'none';
                 showMessage('Erreur de connexion. Réessayez plus tard.', 'error');
             }
         }
 
-        function switchTab(type) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            
-            if (type === 'weekend') {
-                document.querySelector('.tab:first-child').classList.add('active');
-                document.getElementById('weekend-content').classList.add('active');
-            } else {
-                document.querySelector('.tab:last-child').classList.add('active');
-                document.getElementById('daily-content').classList.add('active');
-            }
-        }
-
         function initCalendar() {
-            initWeekendCalendar();
-            initDailyCalendar();
-            checkAdminStatus();
-        }
-
-        function initWeekendCalendar() {
             const grid = document.getElementById('calendarGridWeekend');
             grid.innerHTML = '';
             ramadanDates.forEach(dateObj => {
-                const card = createDateCard(dateObj, timeSlotsWeekend, 'weekend');
+                const card = createDateCard(dateObj, timeSlotsWeekend);
                 grid.appendChild(card);
             });
+            checkAdminStatus();
         }
 
-        function initDailyCalendar() {
-            const grid = document.getElementById('calendarGridDaily');
-            grid.innerHTML = '';
-            allRamadanDates.forEach(dateObj => {
-                const card = createDateCard(dateObj, timeSlotDaily, 'daily');
-                grid.appendChild(card);
-            });
-        }
-
-        function createDateCard(dateObj, timeSlots, type) {
+        function createDateCard(dateObj, timeSlots) {
             const card = document.createElement('div');
             card.className = 'date-card';
             
@@ -695,15 +625,14 @@
                 const timeSlot = document.createElement('div');
                 const isReserved = reservations.some(r => 
                     r.Date === new Date(dateObj.date).toLocaleDateString('fr-FR') && 
-                    r.Horaire && r.Horaire.includes(slot.label) && 
-                    r.Type === (type === 'weekend' ? 'Week-end' : 'Quotidien')
+                    r.Horaire && r.Horaire.includes(slot.label)
                 );
                 
                 timeSlot.className = `time-slot ${isReserved ? 'reserved' : ''}`;
                 timeSlot.innerHTML = `${slot.label}<br><small>${slot.time}</small>`;
                 
                 if (!isReserved) {
-                    timeSlot.onclick = () => selectTimeSlot(dateObj, slot, timeSlot, type);
+                    timeSlot.onclick = () => selectTimeSlot(dateObj, slot, timeSlot);
                 } else {
                     timeSlot.innerHTML += '<br><strong style="color: #c62828;">RÉSERVÉ</strong>';
                 }
@@ -717,7 +646,7 @@
             return card;
         }
 
-        function selectTimeSlot(dateObj, slot, element, type) {
+        function selectTimeSlot(dateObj, slot, element) {
             document.querySelectorAll('.time-slot.selected').forEach(el => {
                 el.classList.remove('selected');
             });
@@ -725,29 +654,20 @@
             element.classList.add('selected');
             selectedDate = dateObj;
             selectedTime = slot;
-            currentType = type;
             
-            const formId = type === 'weekend' ? 'reservationFormWeekend' : 'reservationFormDaily';
-            const slotId = type === 'weekend' ? 'selectedSlotWeekend' : 'selectedSlotDaily';
-            
-            const form = document.getElementById(formId);
+            const form = document.getElementById('reservationFormWeekend');
             form.classList.add('active');
             
-            document.getElementById(slotId).value = 
+            document.getElementById('selectedSlotWeekend').value = 
                 `${dateObj.day} ${new Date(dateObj.date).toLocaleDateString('fr-FR')} - ${slot.label}`;
             
             form.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
-        async function submitReservation(type) {
-            const nomId = type === 'weekend' ? 'nomWeekend' : 'nomDaily';
-            const telId = type === 'weekend' ? 'telephoneWeekend' : 'telephoneDaily';
-            const sujetId = type === 'weekend' ? 'sujetWeekend' : 'sujetDaily';
-            const btnId = type === 'weekend' ? 'btnWeekend' : 'btnDaily';
-            
-            const nom = document.getElementById(nomId).value.trim();
-            const telephone = document.getElementById(telId).value.trim();
-            const sujet = document.getElementById(sujetId).value.trim();
+        async function submitReservation() {
+            const nom = document.getElementById('nomWeekend').value.trim();
+            const telephone = document.getElementById('telephoneWeekend').value.trim();
+            const sujet = document.getElementById('sujetWeekend').value.trim();
             
             if (!nom || !telephone || !sujet) {
                 showMessage('Veuillez remplir tous les champs obligatoires', 'error');
@@ -759,12 +679,12 @@
                 return;
             }
             
-            const btn = document.getElementById(btnId);
+            const btn = document.getElementById('btnWeekend');
             btn.disabled = true;
             btn.textContent = '⏳ Envoi en cours...';
             
             const reservation = {
-                type: type === 'weekend' ? 'Week-end' : 'Quotidien',
+                type: 'Week-end',
                 date: new Date(selectedDate.date).toLocaleDateString('fr-FR'),
                 day: selectedDate.day,
                 timeLabel: selectedTime.label,
@@ -785,10 +705,10 @@
                 
                 showMessage('✓ Réservation enregistrée avec succès!', 'success');
                 
-                document.getElementById(nomId).value = '';
-                document.getElementById(telId).value = '';
-                document.getElementById(sujetId).value = '';
-                document.getElementById(type === 'weekend' ? 'reservationFormWeekend' : 'reservationFormDaily').classList.remove('active');
+                document.getElementById('nomWeekend').value = '';
+                document.getElementById('telephoneWeekend').value = '';
+                document.getElementById('sujetWeekend').value = '';
+                document.getElementById('reservationFormWeekend').classList.remove('active');
                 
                 selectedDate = null;
                 selectedTime = null;
@@ -806,6 +726,30 @@
                 btn.disabled = false;
                 btn.textContent = 'Confirmer la réservation';
             }
+        }
+
+        function loadPublicProgram() {
+            const programList = document.getElementById('programList');
+            
+            if (reservations.length === 0) {
+                programList.innerHTML = '<p style="text-align: center; color: #666; grid-column: 1/-1;">Aucune conférence programmée pour le moment.</p>';
+                return;
+            }
+            
+            programList.innerHTML = reservations
+                .sort((a, b) => {
+                    const dateA = new Date(a.Date.split('/').reverse().join('-'));
+                    const dateB = new Date(b.Date.split('/').reverse().join('-'));
+                    return dateA - dateB;
+                })
+                .map(r => `
+                    <div class="program-item">
+                        <div class="date">📅 ${r.Jour} ${r.Date}</div>
+                        <div class="time">🕐 ${r.Horaire}</div>
+                        <div class="speaker">👤 Intervenant : ${r.Nom}</div>
+                        <div class="subject">📖 Sujet : ${r.Sujet}</div>
+                    </div>
+                `).join('');
         }
 
         function adminLogin() {
@@ -860,9 +804,6 @@
                 list.innerHTML = reservations
                     .map(r => `
                         <div class="reservation-item">
-                            <strong style="color: ${r.Type === 'Week-end' ? '#1565c0' : '#2e7d32'};">
-                                ${r.Type === 'Week-end' ? '📅 Week-end' : '🌙 Quotidien'}
-                            </strong><br>
                             <strong>📅 ${r.Jour} ${r.Date}</strong><br>
                             <strong>🕐 ${r.Horaire}</strong><br>
                             <strong>👤 Nom :</strong> ${r.Nom}<br>
@@ -914,8 +855,7 @@
         }
 
         function openGoogleSheet() {
-            const sheetId = GOOGLE_SCRIPT_URL.split('/')[5];
-            window.open(`https://docs.google.com/spreadsheets/d/${sheetId}`, '_blank');
+            window.open('https://docs.google.com/spreadsheets/d/1pxQ20lI1hqkmrsxICAG7I-ZmZb7WN52-', '_blank');
         }
 
         // Initialisation
